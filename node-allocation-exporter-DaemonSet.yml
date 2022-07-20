@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: node-allocation-exporter
+spec:
+  selector:
+    matchLabels:
+      app: node-allocation-exporter
+  template:
+    metadata:
+      labels:
+        app: node-allocation-exporter
+      name: node-allocation-exporter
+    spec:
+      containers:
+      - image: registry.cn-hangzhou.aliyuncs.com/node-allocation-exporter/node-allocation-exporter:0.0.5
+        env:
+        - name: KUBERNETES_SERVICE_HOST
+          value: "1.1.1.1"
+        - name: KUBERNETES_SERVICE_PORT
+          value: "6443"
+        imagePullPolicy: IfNotPresent
+        name: node-allocation-exporter
+        ports:
+        - containerPort: 9965
+          hostPort: 19965
+          protocol: TCP
+        volumeMounts: 
+        - name: kubeconfig-volume
+          mountPath: /root/.kube/config
+      volumes:
+      - name: kubeconfig-volume
+        configMap:
+          name: k8s-configmap
