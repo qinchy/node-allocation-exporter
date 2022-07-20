@@ -31,5 +31,4 @@ _ReSharper*/
 #Nuget packages folder
 packages/
 .idea/
-vendor/
 node-allocation-exporter-image.tar.gz
